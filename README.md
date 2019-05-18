@@ -53,7 +53,7 @@ zip -r cl-ea.zip .
 - Under Function code, select "Upload a .zip file" from the Code entry type drop-down
 - Click Upload and select the `cl-ea.zip` file
 - Handler should remain index.handler
-- Add the environment variable:
+- Add the environment variable (repeat for all environment variables):
   - Key: API_KEY
   - Value: Your_API_key
 - Save
@@ -65,6 +65,6 @@ zip -r cl-ea.zip .
 - Click Browse and select the `cl-ea.zip` file
 - Select a Storage Bucket to keep the zip in
 - Function to execute: gcpservice
-- Click More, Add variable
+- Click More, Add variable (repeat for all environment variables)
   - NAME: API_KEY
   - VALUE: Your_API_key
