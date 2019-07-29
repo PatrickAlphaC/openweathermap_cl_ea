@@ -1,9 +1,9 @@
 const createRequest = require("./index").createRequest;
 
 const express = require("express");
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.EA_PORT || 3000;
+const port = process.env.EA_PORT || 8080;
 
 app.use(bodyParser.json());
 

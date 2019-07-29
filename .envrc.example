@@ -1,3 +1,2 @@
 export URL=https://min-api.cryptocompare.com/data/
-export ENDPOINT=price
 export API_KEY=abcdefg1234567

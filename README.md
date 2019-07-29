@@ -16,12 +16,10 @@ Enter into the newly-created directory
 cd MyProject
 ```
 
-Create your own repo before moving on to the next step
-
-Replace \<url> below with your repo's .git URL
+You can remove the existing git history by running:
 
 ```bash
-git remote set-url origin <url>
+rm -rf .git
 ```
 
 ## Install
