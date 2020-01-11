@@ -1,7 +1,7 @@
 const request = require('request')
 
 const createRequest = (input, callback) => {
-  let url = process.env.URL || 'https://min-api.cryptocompare.com/data/'
+  let url = 'https://min-api.cryptocompare.com/data/'
   // Including an endpoint parameter is optional but common since
   // different endpoints of the same API typically respond with
   // data structured different from one another
