@@ -1,4 +1,4 @@
-# Chainlink NodeJS Serverless External Adapter Template
+# Chainlink NodeJS External Adapter Template
 
 This template provides a basic framework for developing Chainlink external adapters in NodeJS. Comments are included to assist with development and testing of the external adapter. Once the API-specific values (like query parameters and API key authentication) have been added to the adapter, it is very easy to add some tests to verify that the data will be correctly formatted when returned to the Chainlink node. There is no need to use any additional frameworks or to run a Chainlink node in order to test the adapter.
 
@@ -22,22 +22,54 @@ You can remove the existing git history by running:
 rm -rf .git
 ```
 
+## Input Params
+
+- `base`, `from`, or `coin`: The symbol of the currency to query
+- `quote`, `to`, or `market`: The symbol of the currency to convert to
+
+## Output
+
+```json
+{
+ "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+ "data": {
+  "USD": 164.02,
+  "result": 164.02
+ },
+ "statusCode": 200
+}
+```
+
 ## Install
 
 ```bash
-npm install
+yarn
 ```
 
 ## Test
 
 ```bash
-npm test
+yarn test
 ```
 
 ## Create the zip
 
 ```bash
 zip -r cl-ea.zip .
+```
+
+## Docker
+
+If you wish to use Docker to run the adapter, you can build the image by running the following command:
+
+```bash
+docker build . -t cl-ea
+```
+
+Then run it with:
+
+```bash
+docker run -p 8080:8080 -it cl-ea:latest
 ```
 
 ## Install to AWS Lambda
@@ -56,6 +88,26 @@ zip -r cl-ea.zip .
   - Value: Your_API_key
 - Save
 
+#### To Set Up an API Gateway
+
+An API Gateway is necessary for the function to be called by external services. You will need to disable the Lambda proxy integration for this to work as expected.
+
+- Click Add Trigger
+- Select API Gateway in Trigger configuration
+- Under API, click Create an API
+- Choose REST API
+- Select the security for the API
+- Click Add
+- Click the API Gateway trigger
+- Click the name of the trigger (this is a link, a new window opens)
+- Click Integration Request
+- Uncheck Use Lamba Proxy integration
+- Click OK on the two dialogs
+- Return to your function
+- Remove the API Gateway and Save
+- Click Add Trigger and use the same API Gateway
+- Select the deployment stage and security
+- Click Add
 
 ## Install to GCP
 

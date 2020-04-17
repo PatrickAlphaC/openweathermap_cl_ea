@@ -1,65 +1,54 @@
-const request = require('request')
+const { Requester, Validator } = require('external-adapter')
+
+// Define custom error scenarios for the API.
+// Return true for the adapter to retry.
+const customError = (body) => {
+  if (body.Response === 'Error') return true
+  return false
+}
+
+// Define custom parameters to be used by the adapter.
+// Extra parameters can be stated in the extra object,
+// with a Boolean value indicating whether or not they
+// should be required.
+const customParams = {
+  base: ['base', 'from', 'coin'],
+  quote: ['quote', 'to', 'market'],
+  endpoint: false
+}
 
 const createRequest = (input, callback) => {
-  let url = 'https://min-api.cryptocompare.com/data/'
-  // Including an endpoint parameter is optional but common since
-  // different endpoints of the same API typically respond with
-  // data structured different from one another
-  const endpoint = input.data.endpoint || 'price'
-  // Include a trailing slash '/' in your url if endpoint is in use
-  // and part of the URL
-  url = url + endpoint
+  // The Validator helps you validate the Chainlink request data
+  const validator = new Validator(input, customParams, callback)
+  const jobRunID = validator.validated.id
+  const endpoint = validator.validated.data.endpoint || 'price'
+  const url = `https://min-api.cryptocompare.com/data/${endpoint}`
+  const fsym = validator.validated.data.base.toUpperCase()
+  const tsyms = validator.validated.data.quote.toUpperCase()
 
-  // Create additional input params here, for example:
-  const coin = input.data.coin || 'ETH'
-  const market = input.data.market || 'USD'
-
-  // Build your query object with the given input params, for example:
-  const queryObj = {
-    fsym: coin,
-    fsyms: coin,
-    tsym: market,
-    tsyms: market
-  }
-
-  // Use this to clean up unused input parameters
-  for (const key in queryObj) {
-    if (queryObj[key] === '') {
-      delete queryObj[key]
-    }
+  const qs = {
+    fsym,
+    tsyms
   }
 
   const options = {
-    url: url,
-    // Change the API_KEY key name to the name specified by the API
-    // Note: If the API only requires a request header to be specified
-    // for authentication, you can place this in the job's specification
-    // instead of writing an external adapter
-    /*
-    headers: {
-      'API_KEY': process.env.API_KEY
-    },
-    */
-    qs: queryObj,
-    json: true
+    url,
+    qs
   }
-  request(options, (error, response, body) => {
-    // Add any API-specific failure case here to pass that error back to Chainlink
-    if (error || response.statusCode >= 400) {
-      callback(response.statusCode, {
-        jobRunID: input.id,
-        status: 'errored',
-        error: body,
-        statusCode: response.statusCode
-      })
-    } else {
-      callback(response.statusCode, {
-        jobRunID: input.id,
-        data: body,
-        statusCode: response.statusCode
-      })
-    }
-  })
+
+  // The Requester allows API calls be retry in case of timeout
+  // or connection failure
+  Requester.requestRetry(options, customError)
+    .then(response => {
+      // It's common practice to store the desired value at the top-level
+      // result key. This allows different adapters to be compatible with
+      // one another.
+      response.body.result = Requester.validateResult(response.body, [tsyms])
+      callback(response.statusCode, Requester.success(jobRunID, response))
+    })
+    .catch(error => {
+      callback(500, Requester.errored(jobRunID, error))
+    })
 }
 
 // This is a wrapper to allow the function to work with
