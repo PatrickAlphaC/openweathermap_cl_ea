@@ -2,8 +2,8 @@ const { Requester, Validator } = require('external-adapter')
 
 // Define custom error scenarios for the API.
 // Return true for the adapter to retry.
-const customError = (body) => {
-  if (body.Response === 'Error') return true
+const customError = (data) => {
+  if (data.Response === 'Error') return true
   return false
 }
 
@@ -19,32 +19,32 @@ const customParams = {
 
 const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'price'
   const url = `https://min-api.cryptocompare.com/data/${endpoint}`
   const fsym = validator.validated.data.base.toUpperCase()
   const tsyms = validator.validated.data.quote.toUpperCase()
 
-  const qs = {
+  const params = {
     fsym,
     tsyms
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
 
   // The Requester allows API calls be retry in case of timeout
   // or connection failure
-  Requester.requestRetry(options, customError)
+  Requester.request(config, customError)
     .then(response => {
       // It's common practice to store the desired value at the top-level
       // result key. This allows different adapters to be compatible with
       // one another.
-      response.body.result = Requester.validateResult(response.body, [tsyms])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, [tsyms])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))
