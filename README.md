@@ -42,15 +42,21 @@ rm -rf .git
 
 ## Install Locally
 
+Install dependencies:
+
 ```bash
 yarn
 ```
 
 ### Test
 
+Run the local tests:
+
 ```bash
 yarn test
 ```
+
+Natively run the application (defaults to port 8080):
 
 ### Run
 
@@ -73,6 +79,8 @@ docker run -p 8080:8080 -it external-adapter:latest
 ```
 
 ## Serverless hosts
+
+After [installing locally](#install-locally):
 
 ### Create the zip
 
