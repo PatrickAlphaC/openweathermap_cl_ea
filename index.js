@@ -1,4 +1,4 @@
-const { Requester, Validator } = require('external-adapter')
+const { Requester, Validator } = require('@chainlink/external-adapter')
 
 // Define custom error scenarios for the API.
 // Return true for the adapter to retry.

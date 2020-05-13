@@ -40,22 +40,22 @@ rm -rf .git
 }
 ```
 
-## Install
+## Install Locally
 
 ```bash
 yarn
 ```
 
-## Test
+### Test
 
 ```bash
 yarn test
 ```
 
-## Create the zip
+### Run
 
 ```bash
-zip -r external-adapter.zip .
+yarn start
 ```
 
 ## Docker
@@ -72,7 +72,15 @@ Then run it with:
 docker run -p 8080:8080 -it external-adapter:latest
 ```
 
-## Install to AWS Lambda
+## Serverless hosts
+
+### Create the zip
+
+```bash
+zip -r external-adapter.zip .
+```
+
+### Install to AWS Lambda
 
 - In Lambda Functions, create function
 - On the Create function page:
@@ -82,15 +90,28 @@ docker run -p 8080:8080 -it external-adapter:latest
   - Click Create Function
 - Under Function code, select "Upload a .zip file" from the Code entry type drop-down
 - Click Upload and select the `external-adapter.zip` file
-- Handler should remain index.handler
+- Handler:
+    - index.handler for REST API Gateways
+    - index.handlerv2 for HTTP API Gateways
 - Add the environment variable (repeat for all environment variables):
   - Key: API_KEY
   - Value: Your_API_key
 - Save
 
-#### To Set Up an API Gateway
+#### To Set Up an API Gateway (HTTP API)
 
-An API Gateway is necessary for the function to be called by external services. You will need to disable the Lambda proxy integration for this to work as expected.
+If using a HTTP API Gateway, Lambda's built-in Test will fail, but you will be able to externally call the function successfully.
+
+- Click Add Trigger
+- Select API Gateway in Trigger configuration
+- Under API, click Create an API
+- Choose HTTP API
+- Select the security for the API
+- Click Add
+
+#### To Set Up an API Gateway (REST API)
+
+If using a REST API Gateway, you will need to disable the Lambda proxy integration for Lambda-based adapter to function.
 
 - Click Add Trigger
 - Select API Gateway in Trigger configuration
@@ -109,7 +130,7 @@ An API Gateway is necessary for the function to be called by external services. 
 - Select the deployment stage and security
 - Click Add
 
-## Install to GCP
+### Install to GCP
 
 - In Functions, create a new function, choose to ZIP upload
 - Click Browse and select the `external-adapter.zip` file

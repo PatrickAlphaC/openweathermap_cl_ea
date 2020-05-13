@@ -5,15 +5,16 @@
   "description": "",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/_mocha --timeout 0"
+    "test": "./node_modules/.bin/_mocha --timeout 0",
+    "start": "node app.js"
   },
   "dependencies": {
-    "external-adapter": "^0.2.1"
+    "@chainlink/external-adapter": "^0.2.3"
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
-    "eslint": "^6.5.1",
+    "eslint": "^7.0.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
