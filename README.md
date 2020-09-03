@@ -4,45 +4,48 @@ This template provides a basic framework for developing Chainlink external adapt
 
 ## Creating your own adapter from this template
 
-Clone this repo and change "ExternalAdapterProject" below to the name of your project
+Clone this repo and change "WeatherExternalAdapter" below to the name of your project
 
 ```bash
-git clone https://github.com/thodges-gh/CL-EA-NodeJS-Template.git ExternalAdapterProject
+git clone https://github.com/PatrickAlphaC/CL-EA-NodeJS-Template.git -b weather-api WeatherExternalAdapter
 ```
 
 Enter into the newly-created directory
 
 ```bash
-cd ExternalAdapterProject
+cd WeatherExternalAdapter
 ```
 
-You can remove the existing git history by running:
+You'll need an API key from the [OpenWeather API](https://home.openweathermap.org/api_keys). NOTE: It takes ~10 minutes for the key to register with the platform. 
 
-```bash
-rm -rf .git
-```
+See [Install Locally](#install-locallyquickstart) for a quickstart
 
 See [Install Locally](#install-locally) for a quickstart
 
 ## Input Params
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
-- `quote`, `to`, or `market`: The symbol of the currency to convert to
+- `q `, `city`, or `town`: The city to get the weather for
 
 ## Output
 
 ```json
-{
- "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
- "data": {
-  "USD": 164.02,
-  "result": 164.02
- },
- "statusCode": 200
+{"jobRunID":0,
+"data":{
+  "coord":{"lon":-71.06,"lat":42.36},
+  "weather":[{"id":701,"main":"Mist","description":"mist","icon":"50n"}],
+  "base":"stations",
+  "main":{"temp":293.67,"feels_like":294.97,"temp_min":292.59,"temp_max":294.26,"pressure":1010,"humidity":94},
+  "visibility":2414,
+  "wind":{"speed":3.1,"deg":190},
+  "clouds":{"all":90},
+  "dt":1599095117,
+  "sys":{"type":1,"id":3486,"country":"US","sunrise":1599041470,"sunset":1599088607},"timezone":-14400,"id":4930956,"name":"Boston","cod":200,"result":293.67},
+  "result":293.67,
+  "statusCode":200
 }
 ```
 
-## Install Locally
+# Install Locally/Quickstart
 
 Install dependencies:
 
@@ -66,10 +69,10 @@ Natively run the application (defaults to port 8080):
 yarn start
 ```
 
-## Call the external adapter/API server
+### Call the external adapter/API server
 
 ```bash
-curl -X POST -H "content-type:application/json" "http://localhost:8080/" --data '{ "id": 0, "data": { "from": "ETH", "to": "USD" } }'
+curl -X POST -H "content-type:application/json" "http://localhost:8080/" --data '{"id": 0,"data":{"city": "Boston"}}'
 ```
 
 ## Docker

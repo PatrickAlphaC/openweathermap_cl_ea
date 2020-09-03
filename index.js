@@ -1,5 +1,6 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
+
 // Define custom error scenarios for the API.
 // Return true for the adapter to retry.
 const customError = (data) => {
@@ -12,8 +13,7 @@ const customError = (data) => {
 // with a Boolean value indicating whether or not they
 // should be required.
 const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  city: ['q', 'city', 'town'],
   endpoint: false
 }
 
@@ -21,14 +21,15 @@ const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'price'
-  const url = `https://min-api.cryptocompare.com/data/${endpoint}`
-  const fsym = validator.validated.data.base.toUpperCase()
-  const tsyms = validator.validated.data.quote.toUpperCase()
+  const endpoint = validator.validated.data.endpoint || 'weather'
+  const url = `https://api.openweathermap.org/data/2.5/${endpoint}`
+  const q = validator.validated.data.city.toUpperCase()
+  const appid = process.env.API_KEY;
+  console.log(appid);
 
   const params = {
-    fsym,
-    tsyms
+    q,
+    appid
   }
 
   const config = {
@@ -43,7 +44,7 @@ const createRequest = (input, callback) => {
       // It's common practice to store the desired value at the top-level
       // result key. This allows different adapters to be compatible with
       // one another.
-      response.data.result = Requester.validateResultNumber(response.data, [tsyms])
+      response.data.result = Requester.validateResultNumber(response.data, ['main','temp'])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
