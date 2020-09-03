@@ -1,5 +1,6 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
+
 // Define custom error scenarios for the API.
 // Return true for the adapter to retry.
 const customError = (data) => {
@@ -24,6 +25,7 @@ const createRequest = (input, callback) => {
   const url = `https://api.openweathermap.org/data/2.5/${endpoint}`
   const q = validator.validated.data.city.toUpperCase()
   const appid = process.env.API_KEY;
+  console.log(appid);
 
   const params = {
     q,
