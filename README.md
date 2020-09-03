@@ -22,6 +22,8 @@ You can remove the existing git history by running:
 rm -rf .git
 ```
 
+See [Install Locally](#install-locally) for a quickstart
+
 ## Input Params
 
 - `base`, `from`, or `coin`: The symbol of the currency to query
@@ -62,6 +64,12 @@ Natively run the application (defaults to port 8080):
 
 ```bash
 yarn start
+```
+
+## Call the external adapter/API server
+
+```bash
+curl -X POST -H "content-type:application/json" "http://localhost:8080/" --data '{ "id": 0, "data": { "from": "ETH", "to": "USD" } }'
 ```
 
 ## Docker
