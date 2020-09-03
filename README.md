@@ -4,16 +4,16 @@ This template provides a basic framework for developing Chainlink external adapt
 
 ## Creating your own adapter from this template
 
-Clone this repo and change "MyProject" below to the name of your project
+Clone this repo and change "ExternalAdapterProject" below to the name of your project
 
 ```bash
-git clone https://github.com/thodges-gh/CL-EA-NodeJS-Template.git MyProject
+git clone https://github.com/thodges-gh/CL-EA-NodeJS-Template.git ExternalAdapterProject
 ```
 
 Enter into the newly-created directory
 
 ```bash
-cd MyProject
+cd ExternalAdapterProject
 ```
 
 You can remove the existing git history by running:
