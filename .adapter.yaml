@@ -1,6 +1,6 @@
 name: OpenWeatherMap External Adapter
 description: An external adapter to get the weather
-node_identifier: weather_cl_ea
+node_identifier: openweathermap_cl_ea
 platforms:
   - Docker
   - AWS Lambda
