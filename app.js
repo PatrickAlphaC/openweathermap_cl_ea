@@ -16,3 +16,5 @@ app.post('/', (req, res) => {
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}!`))
+
+// curl -X POST -H "content-type:application/json" "http://localhost:8080/" --data '{ "id": 0, "data": { "from": "ETH", "to": "USD" } }'
