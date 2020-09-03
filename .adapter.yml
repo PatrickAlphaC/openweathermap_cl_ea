@@ -1,0 +1,12 @@
+name: OpenWeatherMap External Adapter
+description: An external adapter to get the weather
+node_identifier: openweathermap_cl_ea
+platforms:
+  - Docker
+  - AWS Lambda
+  - GCP Functions
+data_sources:
+  - name: OpenWeatherMap
+    url: https://openweathermap.org/
+parameters:
+  - city
