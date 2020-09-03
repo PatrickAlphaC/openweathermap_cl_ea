@@ -4,16 +4,16 @@ This template provides a basic framework for developing Chainlink external adapt
 
 ## Creating your own adapter from this template
 
-Clone this repo and change "MyProject" below to the name of your project
+Clone this repo and change "WeatherExternalAdapter" below to the name of your project
 
 ```bash
-git clone https://github.com/PatrickAlphaC/CL-EA-NodeJS-Template.git -b weather-api weather-external-adapter
+git clone https://github.com/PatrickAlphaC/CL-EA-NodeJS-Template.git -b weather-api WeatherExternalAdapter
 ```
 
 Enter into the newly-created directory
 
 ```bash
-cd weather-external-adapter
+cd WeatherExternalAdapter
 ```
 
 You'll need an API key from the [OpenWeather API](https://home.openweathermap.org/api_keys). NOTE: It takes ~10 minutes for the key to register with the platform. 
