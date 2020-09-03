@@ -20,6 +20,8 @@ You'll need an API key from the [OpenWeather API](https://home.openweathermap.or
 
 See [Install Locally](#install-locallyquickstart) for a quickstart
 
+See [Install Locally](#install-locally) for a quickstart
+
 ## Input Params
 
 - `q `, `city`, or `town`: The city to get the weather for
